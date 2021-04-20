@@ -1,0 +1,125 @@
+{
+	"info": {
+		"_postman_id": "1ac55f94-52ab-4352-bde2-5042f85a5de9",
+		"name": "mq-client-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Send message",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/api/send-hello-world",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"send-hello-world"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Receive message",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/api/recv",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"recv"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send message POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"gerry\",\n    \"lastName\": \"kovan\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base-url}}/api/send-json",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"api",
+						"send-json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "health (spring actuator)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/metrics/health",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"metrics",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "health  (quarkus actuator)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/q/health",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"q",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "health  (app endpoint)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base-url}}/health",
+					"host": [
+						"{{base-url}}"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

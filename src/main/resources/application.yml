@@ -1,0 +1,70 @@
+spring:
+  application:
+    name: "${IMAGE_NAME:template-spring-boot}"
+
+  profiles:
+    active: mock
+
+  sleuth:
+    traceId128: true
+    sampler:
+      probability: 1.0
+    opentracing:
+      enabled: true
+
+  zipkin:
+    baseUrl: ${ZIPKIN_BASE_URL:jaeger-all-in-one-inmemory-collector}
+    
+ibm:
+  mq:
+    queue-manager: ${QM:QM1}
+    channel: ${CHANNEL:DEV.ADMIN.SVRCONN}
+    conn-name: ${CONNECTION_NAME:localhost(1414)}
+    user: ${USER}
+    password: ${PASSWORD}
+    application-name: ${APP_NAME:springboot-app}
+
+app:
+  mq:
+   queue-name: ${QUEUE_NAME:DEVGK}    
+
+hello:
+  pattern: "Hello there, %s!"
+
+greetingservice:
+  beanName: "hola"
+
+swagger:
+  baseApiPackage:
+  - "com.ibm.hello"
+  - "com.ibm.health"
+  title: "${IMAGE_NAME:template-spring-boot}"
+  description: "Description"
+  version: "1.0.0"
+  termsOfServiceUrl: ""
+
+  license: "MIT"
+  licenseUrl: ""
+
+management:
+  endpoints:
+    web:
+      base-path: "/metrics"
+      exposure:
+        include: "*"
+
+server:
+  port: ${PORT:8080}
+
+logging:
+  level:
+    ROOT: ${LOG_LEVEL:INFO}
+    com.ibm.hello: DEBUG
+    com.ibm.cloud_garage: DEBUG
+    com.ibm.mqclient: INFO
+    org.springframework: ERROR
+    org.springframework.web: WARN
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    ch.qos.logback.classic: ERROR
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%X] %5p ${hostName} --- [%15.15t] %-40.40c{1.} : %m%n%ex"
