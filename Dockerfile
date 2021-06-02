@@ -11,8 +11,7 @@ COPY .mvn .mvn
 COPY pom.xml .
 COPY src src
 
-RUN mvn package
-#RUN ./mvnw install -DskipTests
+RUN ./mvnw install -DskipTests
 
 ### stage 2  ###
 
