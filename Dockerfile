@@ -1,15 +1,29 @@
-FROM quay.io/ibmgaragecloud/gradle:jdk11 AS builder
+# multistage Dockerfile
+# first stage does the maven build
+# second stage creates the runtime image
+###  stage 1 ###
+FROM adoptopenjdk/maven-openjdk11 as builder
 
-WORKDIR /home/gradle
-COPY . .
-RUN ./gradlew assemble copyJarToServerJar --no-daemon
+WORKDIR /workspace/app
+
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+COPY src src
+
+RUN mvn package
+#RUN ./mvnw install -DskipTests
+
+### stage 2  ###
+
 
 FROM registry.access.redhat.com/ubi8/ubi:8.2
 
 RUN dnf install -y java-11-openjdk.x86_64
 
-COPY --from=builder /home/gradle/build/libs/server.jar ./server.jar
+COPY --from=builder /workspace/app/target/*.jar ./app.jar
 
-EXPOSE 9080/tcp
+EXPOSE 8080/tcp
+USER 1001
 
-CMD ["java", "-jar", "./server.jar"]
+CMD ["java", "-jar", "./app.jar"]

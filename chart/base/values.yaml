@@ -1,4 +1,3 @@
-# Default values for template-node-typescript.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 global: {}
@@ -52,12 +51,22 @@ connectsTo: ""
 runtime: spring
 
 configmap:
-  CHANNEL: DEV.APP.SVRCONN
+  CHANNEL: IBM.APP.SVRCONN
   CONNECTION_NAME: qm-dev-ibm-mq.dev.svc.cluster.local(1414)
   QM: QUICKSTART
-  QUEUE_NAME: DEV.QUEUE.1
-  APP_NAME: SPRINGBOOT-APP
+  QUEUE_NAME: IBM.DEMO.Q
+  APP_NAME: MQ-SPRING-APP
+  
+sealedsecret:
+  PASSWORD: AgA5uYN7SSJs8ZUBj1MJ1qdRLfpkb8E/xUqM5uWFACH1Sqf7HEycONn05WZYdp/5ET/KaZgQL0HHbBaMh6SOCjRzfbrfFAjTDUAZdVMRsIjwZllS7ex0R/FDro6jgE7wx9wVuGilzaH3mYykKS5DIqvN7TXxqREhhMZmyCMKWqyJEfwIMDC74ZH74ZS01TmsgmfbzmXs6gSLkFify5v1vr9U1oJly3FQmISf8IInHdpgls3Ube4WSQb5a5q9CPxMYmLVZ/yvPqyjV2oDzRCdVRzVfHgu3b/z+wsxV6LUZXKyRQE0O2SET1QQ87CCsnOaok7l63eHqih2BL2For5mAUdOVOi6cZeip7DU7jOzyjjYpfEqY7nWS+TLCsxiszQcc2Uz8e19858WbotkjL4k9oEE6DCFrJVs36dzWmrJRpncfKdxtCX9fscHn9uRZjsysvYp8PjkKh29GDgLNNybH6GJ2Bnbt7Up4go4UL3uF12gp5gwlMEJDIZM0V3DN9CttLMX2zL73gVzUpWPkSmFch5b4DQdmLKvhtgWzVfGxyDxU7PY55LUPl8kcmYJNjJimLJwBqfRralCyzOLOcGjuy9FqOI6NBX8oFoVBUeL+amkbpwfZdHlxw6KYqNI7DjA8dUsD4d1+/fMYk08y+MT1V/bobl/L9pfCLyUKRT1RqTThEgAoAb0aQB1x4XGpRdUeF6Q2T4=
+  USER: AgASY6W5UMteWl3eom7w1vLvJhacvslW5gthr9vrvlXDOcAWeVSMUkZEtbu9hGhuYgrFZvuxKcK34EzTuCmQ8LqgHeyKVs50lR2+5Jqxb34j8Goc4nWWYgVbK7GCrnnIeSmfjJ2WtRuXBgwr8xmxiomYdwOOuxJJvqgja0F51aad16GmJ2FrZcnuGZQZcCkxh6ROef3uR39HDG6emmLTCu/hyHVF8C6oEjxwRWYPaoEelRa6yoi0KUF4QAYB2KSgtz4CDzGMjumdkjTGqJHLe7xIeWAJasRGl+peNUw8B7VIsjWB+IGAhoLSpJHQ52wgjVOMC3Lz9a7DhjqsUGWWo9M3MckFaTABLPC6N8QznGzjjPZa99CK9AtpBmyJJg7+bQIjgOyC1rFkAtWo7U2VjDoipuF9kf4NDLJlBCIq9hCSJEiZvo81sfqlxItx/6pmXcP0RvSy6AJlrWLzpdPMS7XETEHceA2J7yVUA/1nuEF1cKReW/R2IQ2Xd4kRjXXu64G6E8ZJwYQzkscyS9cOX/xlTEPOU2nbcdOj9R4zbHrWJplPHHCPuNupTY8sZfCDasjJw+IxJWiiJW5PXqwhCc8gHmA82bx3iEj/wnZ3ig2DDMtI2/jyOnLJeb9cEfnAz+ltMpkvG+EXr2Kg5UL4YVSojzEj6M0+d/5zFuY4xRXRqrueAyBka9lHg7YyIoQXJAulNl98VA==
+  isScopeClusterWide: "true"
+  
+certs:
+  volumeName: certs  
+  certSecretName: mq-client-jks 
+  certPasswordSecretName: mq-client-jks-password
+  volumeMountPath: "/certs"
+  trustStoreFileName: truststore.jks
+  keyStoreFileName: keystore.jks
 
-secret:
-  PASSWORD: cGFzc3cwcmQ=
-  USER: YXBw

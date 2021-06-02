@@ -30,13 +30,14 @@ public class SwaggerDocket {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(buildApiRequestHandler())
-                .paths(PathSelectors.regex(".*stock-item.*"))
+                .paths(PathSelectors.regex(".*/api/.*"))
                 .build()
+                .useDefaultResponseMessages(false)
                 .apiInfo(buildApiInfo());
     }
 
     protected Predicate<RequestHandler> buildApiRequestHandler() {
-        if (!StringUtils.isEmpty(config.getBaseApiPackage())) {
+        if (!StringUtils.hasLength(config.getBaseApiPackage())) {
             return buildBasePackageRequestHandler(config.getBaseApiPackage());
         }
 

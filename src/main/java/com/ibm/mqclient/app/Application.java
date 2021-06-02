@@ -3,6 +3,8 @@ package com.ibm.mqclient.app;
 import io.jaegertracing.Configuration;
 import io.jaegertracing.Configuration.ReporterConfiguration;
 import io.jaegertracing.Configuration.SamplerConfiguration;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -16,7 +18,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
 @SpringBootApplication
-@ComponentScan({ "com.ibm.mqclient", "com.ibm.cloud_garage.*", "com.ibm.health" })
+@ComponentScan({ "com.ibm.mqclient", "com.ibm.cloud_garage.*", "com.ibm.hello", "com.ibm.health" })
 public class Application extends SpringBootServletInitializer {
 	@Autowired
 	Environment environment;

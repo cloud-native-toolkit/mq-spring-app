@@ -1,6 +1,6 @@
 spring:
   application:
-    name: "${IMAGE_NAME:template-spring-boot}"
+    name: "${IMAGE_NAME:mq-spring-app}"
 
   profiles:
     active: mock
@@ -23,25 +23,27 @@ ibm:
     user: ${USER}
     password: ${PASSWORD}
     application-name: ${APP_NAME:springboot-app}
+    sslCipherSuite: "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384"
+    
 
 app:
+  keystore: ${CLIENT_SSL_KEY_STORE:default}
+  keystore-pw: ${KEY_STORE_PASSWORD:passw0rd}
+  truststore: ${CLIENT_SSL_TRUST_STORE:default}
+  truststore-pw: ${KEY_STORE_PASSWORD:passw0rd}
   mq:
    queue-name: ${QUEUE_NAME:DEVGK}    
 
-hello:
-  pattern: "Hello there, %s!"
-
-greetingservice:
-  beanName: "hola"
-
 swagger:
-  baseApiPackage:
-  - "com.ibm.hello"
-  - "com.ibm.health"
-  title: "${IMAGE_NAME:template-spring-boot}"
-  description: "Description"
+  baseApiPackage: "com.ibm.mqclient"
+  title: "${IMAGE_NAME:mq-spring-app}"
+  description: "Spring Boot client application that exposes REST api's to put and get messages onto an MQ queue.'"
   version: "1.0.0"
   termsOfServiceUrl: ""
+  contact: 
+    name: "Gerry Kovan" 
+    url: ""
+    email: "gkovan@us.ibm.com"
 
   license: "MIT"
   licenseUrl: ""
@@ -59,9 +61,8 @@ server:
 logging:
   level:
     ROOT: ${LOG_LEVEL:INFO}
-    com.ibm.hello: DEBUG
     com.ibm.cloud_garage: DEBUG
-    com.ibm.mqclient: INFO
+    com.ibm.mqclient: DEBUG
     org.springframework: ERROR
     org.springframework.web: WARN
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG

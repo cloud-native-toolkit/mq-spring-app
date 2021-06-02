@@ -55,9 +55,8 @@ To get started building this application locally, you can either run the applica
     that contains the IBM JDK (Windows, Linux)
     
 To build and run an application:
-1. `./gradlew build`
-3. `./gradlew bootRun -DUSER=admin -DPASSWORD=passw0rd -DQM=QM1 -DCHANNEL="DEV.ADMIN.SVRCONN" -DCONNECTION_NAME="localhost(1414)" -DAPP_NAME=springboot-app -DQUEUE_NAME="DEV.QUEUE.1"`
-
+1. ./mvnw package
+2. ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DCONNECTION_NAME='localhost(1414)' -DCHANNEL=IBM.APP.SVRCONN -DQM=QM1 -DUSER=mqapp -DPASSWORD=mqapp -DQUEUE_NAME='IBM.DEMO.Q' -DCLIENT_SSL_KEY_STORE='ibm-client.jks' -DCLIENT_SSL_KEY_STORE_PASSWORD=passw0rd -DCLIENT_SSL_TRUST_STORE='ibm-ca.jks' -DCLIENT_SSL_TRUST_STORE_PASSWORD=passw0rd"
 
 ## Run MQ docker image locally
 
