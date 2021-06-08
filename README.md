@@ -58,6 +58,35 @@ To build and run an application:
 1. ./mvnw package
 2. ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DCONNECTION_NAME='localhost(1414)' -DCHANNEL=IBM.APP.SVRCONN -DQM=QM1 -DUSER=mqapp -DPASSWORD=mqapp -DQUEUE_NAME='IBM.DEMO.Q' -DCLIENT_SSL_KEY_STORE='ibm-client.jks' -DCLIENT_SSL_KEY_STORE_PASSWORD=passw0rd -DCLIENT_SSL_TRUST_STORE='ibm-ca.jks' -DCLIENT_SSL_TRUST_STORE_PASSWORD=passw0rd"
 
+
+## Sealed Secrets
+
+The app gets deployed using a helm chart which is included in this repo.
+The app depends on a secret called `mq-spring-app` that contains two key value pairs
+called `USER` and `PASSWORD` which contain the info to authenticate the client app with the MQ server.
+We are using Sealed Secrets to create the secret (https://github.com/bitnami-labs/sealed-secrets).
+The way sealed secrets work is, you create the sealed secret resource in the target kube/openshift namespace
+and the operator will generate the actual secret.
+
+Create a kube secret file with the unencrypted values as follows:
+
+```
+oc create secret generic mq-spring-app --from-literal=USER=<user-name> --from-literal=PASSWORD=<password> --dry-run=true -o yaml > mq-spring-app.yaml
+```
+
+Then generate the encrypted values using the kubeseal cli as follows:
+
+```
+kubeseal --scope cluster-wide --controller-name=sealedsecretcontroller-sealed-secrets --controller-namespace=sealed-secrets -o yaml < mq-spring-app.yaml > mq-spring-app-enc.yaml
+```
+The file `mq-spring-app-enc.yaml`  will contain the encrypted values to modify  USER and PASSWORD in  `chart/base/values.yaml`.
+
+In this particular case, the sealed secret created has a cluster-wide scope.
+To further lock down the setup and enhance security, you can create the sealed secret with a namespace scope.
+See kubeseal docs to better understand this.
+
+
+
 ## Run MQ docker image locally
 
 Pull the latest MQ docker image from docker hub:
