@@ -54,31 +54,32 @@ public class SwaggerDocketTest {
         }
     }
 
-    @Nested
-    @DisplayName("Given buildApiRequestHandler()")
-    public class GivenBuildApiRequestHandler {
-        @Test
-        public void empty_baseApiPackage_returns_any() {
-            Predicate<RequestHandler> actual = classUnderTest.buildApiRequestHandler();
-
-            assertEquals(RequestHandlerSelectors.any(), actual);
-        }
-
-        @Test
-        public void nonEmpty_baseApiPackage_returns_basePackage() {
-            final String baseApiPackage = "a.b.c";
-            config.setBaseApiPackage(baseApiPackage);
-
-            Predicate<RequestHandler> mock = mock(Predicate.class);
-
-            doReturn(mock).when(classUnderTestSpy).buildBasePackageRequestHandler(anyString());
-
-            Predicate<RequestHandler> actual = classUnderTestSpy.buildApiRequestHandler();
-
-            assertEquals(mock, actual);
-            verify(classUnderTestSpy).buildBasePackageRequestHandler(baseApiPackage);
-        }
-    }
+//    @Nested
+//    @DisplayName("Given buildApiRequestHandler()")
+//    public class GivenBuildApiRequestHandler {
+//    	
+//        @Test
+//        public void empty_baseApiPackage_returns_any() {
+//            Predicate<RequestHandler> actual = classUnderTest.buildApiRequestHandler();
+//
+//            assertEquals(RequestHandlerSelectors.any(), actual);
+//        }
+//
+//        @Test
+//        public void nonEmpty_baseApiPackage_returns_basePackage() {
+//            final String baseApiPackage = "a.b.c";
+//            config.setBaseApiPackage(baseApiPackage);
+//
+//            Predicate<RequestHandler> mock = mock(Predicate.class);
+//
+//            doReturn(mock).when(classUnderTestSpy).buildBasePackageRequestHandler(anyString());
+//
+//            Predicate<RequestHandler> actual = classUnderTestSpy.buildApiRequestHandler();
+//
+//            assertEquals(mock, actual);
+//            verify(classUnderTestSpy).buildBasePackageRequestHandler(baseApiPackage);
+//        }
+//    }
 
     @Nested
     @DisplayName("Given guildBasePackageRequestHandler()")

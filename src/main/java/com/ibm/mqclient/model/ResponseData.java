@@ -1,5 +1,9 @@
 package com.ibm.mqclient.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(description = "This is the response data from the mq api operations that exeucte successfully.")
 public class ResponseData {
 
 	public ResponseData(String status, String statusMessage, String data) {
@@ -9,10 +13,13 @@ public class ResponseData {
 		this.data = data;
 	}
 
+    @ApiModelProperty (value = "Value is OK if operation executed successfully.")
 	private String status;
 
+    @ApiModelProperty (value = "Description of the operation that completed.")
 	private String statusMessage;
-
+	
+    @ApiModelProperty (value = "Data sent to the queue or received from the queue.")
 	private String data;
 
 	public String getStatus() {
