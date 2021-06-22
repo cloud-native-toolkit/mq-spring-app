@@ -3,7 +3,7 @@ spring:
     name: "${IMAGE_NAME:mq-spring-app}"
 
   profiles:
-    active: mock
+    active: mtls-security
 
   sleuth:
     traceId128: true

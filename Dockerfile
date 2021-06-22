@@ -16,7 +16,7 @@ RUN mvn package -DskipTests
 ### stage 2  ###
 
 
-FROM registry.access.redhat.com/ubi8/ubi:8.2
+FROM registry.access.redhat.com/ubi8/ubi:8.4
 
 RUN dnf install -y java-11-openjdk.x86_64
 
