@@ -2,8 +2,8 @@ spring:
   application:
     name: "${IMAGE_NAME:mq-spring-app}"
 
-  profiles:
-    active: mtls-security
+#  profiles:
+#    active: mtls-security
 
   sleuth:
     traceId128: true
