@@ -5,7 +5,7 @@ global: {}
 name: mq-spring-app
 
 replicaCount: 1
-logLevel: "debug"
+logLevel: "info"
 
 image:
   repository: replace
