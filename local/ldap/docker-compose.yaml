@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  ldap-service.ldap:
+    image: osixia/openldap:1.4.0
+    environment:
+      - LDAP_DOMAIN=ibm.com
+    ports:
+      - 389:389
+      - 636:636
+    command: --copy-service
+    volumes:
+      - ./bootstrap.ldif:/container/service/slapd/assets/config/bootstrap/ldif/50-bootstrap.ldif
+
+networks:
+  default:
+    external:
+      name: ams
