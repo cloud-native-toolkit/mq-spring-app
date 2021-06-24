@@ -89,11 +89,7 @@ See kubeseal docs to better understand this.
 
 ## Run MQ docker image locally
 
-Pull the latest MQ docker image from docker hub:
 
-```
-docker pull ibmcom/mq:latest
-```
 
 Start the MQ docker image:
 
@@ -115,6 +111,36 @@ For more details on how to use this Starter Kit Template please review the [IBM 
 ## Next Steps
 * Learn more about augmenting your Java applications on IBM Cloud with the [Java Programming Guide](https://cloud.ibm.com/docs/java?topic=java-getting-started).
 * Explore other [sample applications](https://cloud.ibm.com/developer/appservice/starter-kits) on IBM Cloud.
+
+
+## Local setup - no security
+
+### MQ 
+
+Pull the latest MQ docker image from docker hub:
+
+```
+docker pull ibmcom/mq:latest
+```
+
+Start MQ docker container
+```
+docker run --env LICENSE=accept --env MQ_QMGR_NAME=QM1 --volume qm1data:/mnt/mqm --publish 1414:1414 --publish 9443:9443 --detach --env MQ_APP_PASSWORD=passw0rd ibmcom/mq:latest
+```
+
+Additional manual steps:
+* create the queue DEV.QUEUE.q 
+* creatte channel DEV.APP.SVRCON 
+* disable queue manager channel authentication CHLAUTH
+
+### client app
+
+To start the spring boot client app
+```
+./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DCONNECTION_NAME='localhost(1414)' -DCHANNEL=DEV.APP.SVRCONN -DQM=QM1 -DQUEUE_NAME='DEV.QUEUE.1' -DUSER=app -DPASSWORD=passw0rd
+```
+
+## Local setup with security
 
 ## License
 

@@ -37,19 +37,23 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.image.secretName }}
       {{- end }}
+      {{- if eq .Values.security true }}
       volumes:
         - name: {{ .Values.certs.volumeName }}
           secret:
             secretName: {{ .Values.certs.certSecretName }}
             defaultMode: 384
-            optional: false        
+            optional: false   
+      {{- end }}           
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if eq .Values.security true }}
           volumeMounts:
             - name: {{ .Values.certs.volumeName }}
-              mountPath: {{ .Values.certs.volumeMountPath }}          
+              mountPath: {{ .Values.certs.volumeMountPath }}
+          {{- end }}              
           ports:
             - name: http
               containerPort: {{ .Values.image.port }}
@@ -69,10 +73,14 @@ spec:
               value: ""
             - name: LOG_LEVEL
               value: {{ .Values.logLevel | quote }}
+            {{- if eq .Values.security true }}  
+            - name: SPRING_PROFILES_ACTIVE
+              value: securitymq
             - name: CLIENT_SSL_TRUST_STORE
               value: {{ .Values.certs.volumeMountPath }}/{{ .Values.certs.trustStoreFileName }}
             - name: CLIENT_SSL_KEY_STORE
               value: {{ .Values.certs.volumeMountPath }}/{{ .Values.certs.keyStoreFileName }}              
+            {{- end }}  
             - name: QM
               valueFrom:
                 configMapKeyRef:
@@ -87,7 +95,8 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: CONNECTION_NAME
-                  name: {{ include "mq-spring-app.fullname" . }}
+                  name: {{ include "mq-spring-app.fullname" . }}     
+            {{- if eq .Values.security true }}                   
             - name: USER
               valueFrom:
                 secretKeyRef:
@@ -98,6 +107,7 @@ spec:
                 secretKeyRef:
                   key: PASSWORD
                   name: {{ include "mq-spring-app.fullname" . }}
+            {{- end }}       
             - name: QUEUE_NAME
               valueFrom:
                 configMapKeyRef:
@@ -115,8 +125,10 @@ spec:
             - secretRef:
                 name: {{ default "jaeger-access" .Values.jaegerSecretName }}
                 optional: true
+            {{- if eq .Values.security true }}     
             - secretRef:
-                name: {{ .Values.certs.certPasswordSecretName }}                 
+                name: {{ .Values.certs.certPasswordSecretName }} 
+            {{- end }}                      
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
