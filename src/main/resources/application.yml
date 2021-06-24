@@ -1,6 +1,8 @@
 spring:
   application:
     name: "${IMAGE_NAME:mq-spring-app}"
+  mvc:
+    log-request-details: true    
 
 #  profiles:
 #    active: mtls-security
