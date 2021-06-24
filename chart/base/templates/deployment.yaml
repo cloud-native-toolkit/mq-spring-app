@@ -75,7 +75,7 @@ spec:
               value: {{ .Values.logLevel | quote }}
             {{- if eq .Values.security true }}  
             - name: SPRING_PROFILES_ACTIVE
-              value: mtls-security
+              value: securitymq
             - name: CLIENT_SSL_TRUST_STORE
               value: {{ .Values.certs.volumeMountPath }}/{{ .Values.certs.trustStoreFileName }}
             - name: CLIENT_SSL_KEY_STORE

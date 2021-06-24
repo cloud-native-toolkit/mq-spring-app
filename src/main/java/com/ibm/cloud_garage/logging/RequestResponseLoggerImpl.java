@@ -24,10 +24,10 @@ public class RequestResponseLoggerImpl implements RequestResponseLogger {
     @Override
     public void traceRequest(HttpRequest request, byte[] body) {
 
-        if (logger.isInfoEnabled()) {
+        if (logger.isDebugEnabled()) {
 
             try {
-                logger.info("{}", beautifyContextString(new RequestLoggingContext()
+                logger.debug("{}", beautifyContextString(new RequestLoggingContext()
                         .withUrl(Optional
                                 .ofNullable(request.getURI())
                                 .map(URI::toString)
