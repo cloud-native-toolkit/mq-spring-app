@@ -5,7 +5,7 @@ global: {}
 name: mq-spring-app
 
 replicaCount: 1
-logLevel: "debug"
+logLevel: "info"
 
 image:
   repository: replace
@@ -39,6 +39,7 @@ ingress:
 
 jaegerConfigName: jaeger-config
 jaegerSecretName: jaeger-access
+jaegerCollectorEndpoint: http://jaeger-all-in-one-inmemory-collector.openshift-operators.svc.cluster.local:14268/api/traces
 
 vcsInfo:
   repoUrl: ""
@@ -70,3 +71,4 @@ certs:
   trustStoreFileName: truststore.jks
   keyStoreFileName: keystore.jks
 
+security: true

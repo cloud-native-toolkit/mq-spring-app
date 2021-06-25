@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+  qmgr:
+    image: ibmcom/mq
+    ports:
+      - 1414:1414
+      - 9443:9443
+    environment:
+      - LICENSE=accept
+      - MQ_QMGR_NAME=QM1
+      - MQ_APP_PASSWORD=passw0rd
+    volumes:
+      - ../certs/ibm-mq-server.crt:/etc/mqm/pki/keys/default/ibm-mq-server.crt
+      - ../certs/ibm-mq-server.key:/etc/mqm/pki/keys/default/ibm-mq-server.key
+      - ../certs/ibm-ca.crt:/etc/mqm/pki/trust/0/ibm-ca.crt
+      - ./config.mqsc:/etc/mqm/config.mqsc
+
+networks:
+  default:
+    external:
+      name: ams

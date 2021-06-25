@@ -1,0 +1,72 @@
+    dn: ou=Groups,dc=ibm,dc=com
+    changetype: add
+    objectclass: organizationalUnit
+    ou: Groups
+
+    # Add People OU
+    dn: ou=People,dc=ibm,dc=com
+    changetype: add
+    objectclass: organizationalUnit
+    ou: People
+
+    # Add users
+    dn: uid=app,ou=People,dc=ibm,dc=com
+    changetype: add
+    objectclass: inetOrgPerson
+    objectclass: organizationalPerson
+    objectclass: person
+    objectclass: top
+    uid: app
+    displayname: app
+    sn: app
+    cn: app
+    userpassword: app
+
+    dn: uid=springapp,ou=People,dc=ibm,dc=com
+    changetype: add
+    objectclass: inetOrgPerson
+    objectclass: organizationalPerson
+    objectclass: person
+    objectclass: top
+    uid: springapp
+    displayname: springapp
+    sn: springapp
+    cn: springapp
+    userpassword: app
+
+    dn: uid=quarkusapp,ou=People,dc=ibm,dc=com
+    changetype: add
+    objectclass: inetOrgPerson
+    objectclass: organizationalPerson
+    objectclass: person
+    objectclass: top
+    uid: quarkusapp
+    displayname: quarkusapp
+    sn: quarkusapp
+    cn: quarkusapp
+    userpassword: app
+
+    dn: uid=mqapp,ou=People,dc=ibm,dc=com
+    changetype: add
+    objectclass: inetOrgPerson
+    objectclass: organizationalPerson
+    objectclass: person
+    objectclass: top
+    uid: mqapp
+    displayname: mqapp
+    sn: mqapp
+    cn: mqapp
+    userpassword: app
+
+
+    # Create ICP user group
+    dn: cn=apps,ou=Groups,dc=ibm,dc=com
+    changetype: add
+    cn: apps
+    objectclass: groupOfUniqueNames
+    objectclass: top
+    owner: cn=admin,dc=ibm,dc=com
+    uniquemember: uid=app,ou=People,dc=ibm,dc=com
+    uniquemember: uid=springapp,ou=People,dc=ibm,dc=com
+    uniquemember: uid=quarkusapp,ou=People,dc=ibm,dc=com
+    uniquemember: uid=mqapp,ou=People,dc=ibm,dc=com
