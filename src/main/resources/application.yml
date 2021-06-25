@@ -4,18 +4,14 @@ spring:
   mvc:
     log-request-details: true    
 
-#  profiles:
-#    active: mtls-security
-
-  sleuth:
-    traceId128: true
-    sampler:
-      probability: 1.0
-    opentracing:
-      enabled: true
-
-  zipkin:
-    baseUrl: ${ZIPKIN_BASE_URL:jaeger-all-in-one-inmemory-collector}
+opentracing:
+  jaeger:
+    enabled: true
+    enable-b3-propagation: true
+    enable128-bit-traces: true
+    log-spans: true
+    http-sender:
+      url: ${JAEGER_ENDPOINT:localhost:9411/api/traces}
     
 ibm:
   mq:
