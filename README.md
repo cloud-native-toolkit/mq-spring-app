@@ -20,20 +20,6 @@
 Sample MQ Client Java Spring Boot application. It contains no default application code, but comes with standard best practices, including a health check and application metric monitoring.
 
 
-
-#### Native Application Development
-
-* [Maven](https://maven.apache.org/install.html)
-* Java 11: Any compliant JVM should work.
-  * [Java 11 JDK from Oracle](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-    or [Download a Liberty server package](https://developer.ibm.com/assets/wasdev/#filter/assetTypeFilters=PRODUCT)
-    that contains the IBM JDK (Windows, Linux)
-    
-To build and run an application:
-1. ./mvnw package
-2. ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DCONNECTION_NAME='localhost(1414)' -DCHANNEL=IBM.APP.SVRCONN -DQM=QM1 -DUSER=mqapp -DPASSWORD=mqapp -DQUEUE_NAME='IBM.DEMO.Q' -DCLIENT_SSL_KEY_STORE='ibm-client.jks' -DCLIENT_SSL_KEY_STORE_PASSWORD=passw0rd -DCLIENT_SSL_TRUST_STORE='ibm-ca.jks' -DCLIENT_SSL_TRUST_STORE_PASSWORD=passw0rd"
-
-
 ## Run the app locally - no security
 
 ### Create and start MQ manager 
@@ -57,7 +43,7 @@ https://localhost:9443/ibmmq/console
 
 Additional manual steps:
 * create the queue DEV.QUEUE.q 
-* creatte channel DEV.APP.SVRCON 
+* create channel DEV.APP.SVRCON 
 * disable queue manager channel authentication CHLAUTH
 
 ### Start Jaeger for capturing traces
