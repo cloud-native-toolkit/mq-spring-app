@@ -19,32 +19,7 @@
 
 Sample MQ Client Java Spring Boot application. It contains no default application code, but comes with standard best practices, including a health check and application metric monitoring.
 
-Capabilities are provided through dependencies in the `pom.xml` file. The ports are set to the defaults of `8080` for http and `8443` for https and are exposed to the CLI in the `cli-config.yml` file. The ports are set in the `pom.xml` file and exposed to the CLI in the `cli-config.yml` file.
 
-## Steps
-
-You can [deploy this application to IBM Cloud](https://cloud.ibm.com/developer/appservice/create-app?starterKit=1298bc4e-4764-390b-a9eb-e4dcf3cc03ad) or [build it locally](#building-locally) by cloning this repo first. Once your app is live, you can access the `/health` endpoint to build out your cloud native application.
-
-### Deploying 
-
-After you have created a new git repo from this git template, remember to rename the project.
-Edit `settings.gradle` and change the `rootProject.name` from the default name to the name you used to create the template.
-
-Make sure you are logged into the IBM Cloud using the IBM Cloud CLI and have access 
-to you development cluster. If you are using OpenShift make sure you have logged into OpenShift CLI on the command line.
-
-```$bash
-npm i -g @garage-catalyst/ibm-garage-cloud-cli
-```
-
-Use the IBM Garage for Cloud CLI to register the GIT Repo with Jenkins 
-```$bash
-igc pipeline -n dev
-```
-
-### Building Locally
-
-To get started building this application locally, you can either run the application natively or use the [IBM Cloud Developer Tools](https://cloud.ibm.com/docs/cli?topic=cloud-cli-getting-started) for containerization and easy deployment to IBM Cloud.
 
 #### Native Application Development
 
@@ -57,6 +32,103 @@ To get started building this application locally, you can either run the applica
 To build and run an application:
 1. ./mvnw package
 2. ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DCONNECTION_NAME='localhost(1414)' -DCHANNEL=IBM.APP.SVRCONN -DQM=QM1 -DUSER=mqapp -DPASSWORD=mqapp -DQUEUE_NAME='IBM.DEMO.Q' -DCLIENT_SSL_KEY_STORE='ibm-client.jks' -DCLIENT_SSL_KEY_STORE_PASSWORD=passw0rd -DCLIENT_SSL_TRUST_STORE='ibm-ca.jks' -DCLIENT_SSL_TRUST_STORE_PASSWORD=passw0rd"
+
+
+## Run the app locally - no security
+
+### Create and start MQ manager 
+
+Pull the latest MQ docker image from docker hub:
+
+```
+docker pull ibmcom/mq:latest
+```
+
+Start MQ docker container
+```
+docker run --env LICENSE=accept --env MQ_QMGR_NAME=QM1 --volume qm1data:/mnt/mqm --publish 1414:1414 --publish 9443:9443 --detach --env MQ_APP_PASSWORD=passw0rd ibmcom/mq:latest
+```
+
+Access the MQ Console:
+
+```
+https://localhost:9443/ibmmq/console
+```
+
+Additional manual steps:
+* create the queue DEV.QUEUE.q 
+* creatte channel DEV.APP.SVRCON 
+* disable queue manager channel authentication CHLAUTH
+
+### Start Jaeger for capturing traces
+
+In ./local/jaeger folder:
+```
+docker-compose up
+```
+
+From a browser, access the jaeger UI:
+```
+http://localhost:16686/search
+```
+
+### Start spring boot client app
+
+```
+./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DCONNECTION_NAME='localhost(1414)' -DCHANNEL=DEV.APP.SVRCONN -DQM=QM1 -DQUEUE_NAME='DEV.QUEUE.1' -DUSER=app -DPASSWORD=passw0rd"
+```
+
+### test the app
+
+To send a message to the mq queue:
+```
+ curl --location --request GET 'http://localhost:8080/api/send-hello-world'
+ ```
+ You should receive a json response as follows:
+ ```
+ {"status":"OK","statusMessage":"Successfully sent record to MQ","data":"Hello World!"}
+ ```
+ 
+ To receive a message from the mq queue:
+ ```
+ curl --location --request GET 'http://localhost:8080/api/recv'
+ ```
+ 
+You should receive a json response:
+```
+{"status":"OK","statusMessage":"Successfully received record from MQ","data":"Hello World!"}
+```
+
+## Run the app locally - with security
+
+### Create and start LDAP server
+
+In ./local/ldap folder:
+```
+docker-compose up
+```
+
+### Create and start MQ manager 
+
+In ./local/mq folder:
+```
+docker-compose up
+```
+
+From a browser, access the jaeger UI:
+```
+http://localhost:16686/search
+```
+
+### Start spring boot client app
+
+```
+./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DCONNECTION_NAME='localhost(1414)' -DCHANNEL=IBM.APP.SVRCONN -DQM=QM1 -DUSER=mqapp -DPASSWORD=mqapp -DQUEUE_NAME='IBM.DEMO.Q' -DCLIENT_SSL_KEY_STORE='ibm-client.jks' -DCLIENT_SSL_KEY_STORE_PASSWORD=passw0rd -DCLIENT_SSL_TRUST_STORE='ibm-ca.jks' -DCLIENT_SSL_TRUST_STORE_PASSWORD=passw0rd"
+```
+
+### test the app
+
+Same steps as above.
 
 
 ## Sealed Secrets
@@ -87,73 +159,9 @@ See kubeseal docs to better understand this.
 
 
 
-## Run MQ docker image locally
-
-
-
-Start the MQ docker image:
-
-```
-docker run --env LICENSE=accept --env MQ_QMGR_NAME=QM1 --volume qm1data:/mnt/mqm --publish 1414:1414 --publish 9443:9443 --detach --env MQ_APP_PASSWORD=passw0rd ibmcom/mq:latest
-```
-
-MQ Console:
-
-```
-https://localhost:9443/ibmmq/console
-```
-
-
-## More Details
-
-For more details on how to use this Starter Kit Template please review the [IBM Garage for Cloud Developer Tools Developer Guide](https://ibm-garage-cloud.github.io/ibm-garage-developer-guide/)
-
-## Next Steps
-* Learn more about augmenting your Java applications on IBM Cloud with the [Java Programming Guide](https://cloud.ibm.com/docs/java?topic=java-getting-started).
-* Explore other [sample applications](https://cloud.ibm.com/developer/appservice/starter-kits) on IBM Cloud.
-
-
-## Local setup - no security
-
-### MQ 
-
-Pull the latest MQ docker image from docker hub:
-
-```
-docker pull ibmcom/mq:latest
-```
-
-Start MQ docker container
-```
-docker run --env LICENSE=accept --env MQ_QMGR_NAME=QM1 --volume qm1data:/mnt/mqm --publish 1414:1414 --publish 9443:9443 --detach --env MQ_APP_PASSWORD=passw0rd ibmcom/mq:latest
-```
-
-Additional manual steps:
-* create the queue DEV.QUEUE.q 
-* creatte channel DEV.APP.SVRCON 
-* disable queue manager channel authentication CHLAUTH
-
-### client app
-
-To start the spring boot client app
-```
-./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DCONNECTION_NAME='localhost(1414)' -DCHANNEL=DEV.APP.SVRCONN -DQM=QM1 -DQUEUE_NAME='DEV.QUEUE.1' -DUSER=app -DPASSWORD=passw0rd
-```
-
-## Local setup with security
 
 ## License
 
 This sample application is licensed under the Apache License, Version 2. Separate third-party code objects invoked within this code pattern are licensed by their respective providers pursuant to their own separate licenses. Contributions are subject to the [Developer Certificate of Origin, Version 1.1](https://developercertificate.org/) and the [Apache License, Version 2](https://www.apache.org/licenses/LICENSE-2.0.txt).
 
 [Apache License FAQ](https://www.apache.org/foundation/license-faq.html#WhatDoesItMEAN)
-
-### Periodically update from the template
-
-Finally, the template components can be periodically updated by running the following:
-
-```bash
-./update-template.sh
-```
-
-webhook test
