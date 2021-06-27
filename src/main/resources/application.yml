@@ -47,9 +47,23 @@ swagger:
 management:
   endpoints:
     web:
-      base-path: "/metrics"
       exposure:
         include: "*"
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: "ALWAYS"
+      group:
+        readiness:
+          include: "readinessState, jms"
+        liveness:
+          include: "livenessState, ping"
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
 
 server:
   port: ${PORT:8080}
