@@ -69,7 +69,7 @@ spec:
             failureThreshold: 3
           readinessProbe:
             httpGet:              
-              path: /actuator/health/readiness
+              path: /actuator/health/liveness
               port: {{ .Values.image.port }}
               scheme: HTTP
             timeoutSeconds: 10
