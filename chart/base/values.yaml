@@ -54,7 +54,7 @@ runtime: spring
 configmap:
   CHANNEL: IBM.APP.SVRCONN
   CONNECTION_NAME: qm-dev-ibm-mq.dev.svc.cluster.local(1414)
-  QM: QUICKSTART
+  QM: QM1
   QUEUE_NAME: IBM.DEMO.Q
   APP_NAME: MQ-SPRING-APP
   
