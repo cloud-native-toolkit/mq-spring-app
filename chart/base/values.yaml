@@ -8,8 +8,8 @@ replicaCount: 1
 logLevel: "info"
 
 image:
-  repository: replace
-  tag: replace
+  repository:  image-registry.openshift-image-registry.svc:5000/ci/mq-spring-app
+  tag: 0.0.4
   pullPolicy: IfNotPresent
   port: 8080
 
