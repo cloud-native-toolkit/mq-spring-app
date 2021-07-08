@@ -15,7 +15,7 @@ spec:
           - tkn
         args:
           - -n
-          - dev
+          - staging
           - pipeline
           - start
           - ibm-test-pipeline-for-dev-env
@@ -24,6 +24,6 @@ spec:
           - --param
           - git-revision="master"
           - --param
-          - argoAppName="mq-spring-app-dev"
+          - argoAppName="mq-spring-app-staging"
       restartPolicy: Never
   backoffLimit: 0
