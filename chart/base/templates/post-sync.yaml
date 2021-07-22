@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: trigger-test-pipeline-in-dev
+  name: trigger-test-pipeline-in-dev-app
   annotations:
     argocd.argoproj.io/hook: PostSync
 spec:
@@ -9,7 +9,7 @@ spec:
     spec:
       serviceAccountName: pipeline
       containers:
-      - name: tests-in-dev
+      - name: tests-in-dev-app
         image: quay.io/rhcanada/tkn-cli
         command:
           - tkn
