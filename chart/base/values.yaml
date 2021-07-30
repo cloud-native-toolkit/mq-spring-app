@@ -72,3 +72,6 @@ certs:
   keyStoreFileName: keystore.jks
 
 security: false
+
+postSyncJob:
+  enabled: false
