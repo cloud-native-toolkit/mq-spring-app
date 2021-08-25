@@ -141,7 +141,7 @@ The file `mq-spring-app-enc.yaml`  will contain the encrypted values to modify  
 
 In this particular case, the sealed secret created has a cluster-wide scope.
 To further lock down the setup and enhance security, you can create the sealed secret with a namespace scope.
-See kubeseal docs to better understand this. Please
+See kubeseal docs to better understand this.
 
 
 
