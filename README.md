@@ -110,7 +110,7 @@ http://localhost:16686/search
 ### Start spring boot client app
 
 ```
-./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DCONNECTION_NAME='localhost(1414)' -DCHANNEL=IBM.APP.SVRCONN -DQM=QM1 -DUSER=mqapp -DPASSWORD=mqapp -DQUEUE_NAME='IBM.DEMO.Q' -DCLIENT_SSL_KEY_STORE='ibm-client.jks' -DCLIENT_SSL_KEY_STORE_PASSWORD=passw0rd -DCLIENT_SSL_TRUST_STORE='ibm-ca.jks' -DCLIENT_SSL_TRUST_STORE_PASSWORD=passw0rd"
+./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DCONNECTION_NAME='localhost(1414)' -DCHANNEL=IBM.APP.SVRCONN -DQM=QM1 -DUSER=mqapp -DPASSWORD=mqapp -DQUEUE_NAME='IBM.DEMO.Q' -DCLIENT_SSL_KEY_STORE='ibm-client.jks' -DCLIENT_SSL_KEY_STORE_PASSWORD=passw0rd -DCLIENT_SSL_TRUST_STORE='ibm-ca.jks' -DCLIENT_SSL_TRUST_STORE_PASSWORD=passw0rd -Dspring.profiles.active=securemq"
 ```
 
 ### test the app
@@ -143,6 +143,7 @@ The file `mq-spring-app-enc.yaml`  will contain the encrypted values to modify  
 In this particular case, the sealed secret created has a cluster-wide scope.
 To further lock down the setup and enhance security, you can create the sealed secret with a namespace scope.
 See kubeseal docs to better understand this. 
+
 
 
 
