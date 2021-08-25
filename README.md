@@ -18,6 +18,7 @@
 # MQ Client Java Spring Boot microservice
 
 Sample MQ Client Java Spring Boot application. It contains no default application code, but comes with standard best practices, including a health check and application metric monitoring.
+More
 
 
 ## Run the app locally - no security
@@ -141,7 +142,8 @@ The file `mq-spring-app-enc.yaml`  will contain the encrypted values to modify  
 
 In this particular case, the sealed secret created has a cluster-wide scope.
 To further lock down the setup and enhance security, you can create the sealed secret with a namespace scope.
-See kubeseal docs to better understand this.
+See kubeseal docs to better understand this. 
+
 
 
 

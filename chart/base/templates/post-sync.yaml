@@ -1,3 +1,4 @@
+{{- if .Values.postSyncJob.enabled -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -27,3 +28,4 @@ spec:
           - argoAppName="mq-spring-app-dev"
       restartPolicy: Never
   backoffLimit: 0
+  {{- end }}
