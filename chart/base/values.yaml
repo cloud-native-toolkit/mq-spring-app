@@ -71,7 +71,7 @@ certs:
   trustStoreFileName: truststore.jks
   keyStoreFileName: keystore.jks
 
-security: true
+security: false
 
 postSyncJob:
   enabled: false
