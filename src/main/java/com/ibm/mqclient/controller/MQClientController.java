@@ -17,6 +17,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @EnableJms
@@ -57,5 +59,14 @@ public class MQClientController {
 		String dataSentToQueue = mqService.sendJson(requestMap);
 		ResponseData responseData = new ResponseData("OK", "Successfully sent record to MQ", dataSentToQueue);
 		return responseData;
+	}
+
+	@GetMapping(value = "/api/send-to-queue")
+	ResponseData sendHelloToQueueName(@RequestParam String queueName) {
+  		mqService.setQueueName(queueName);
+    		String dataSentToQueue = mqService.sendHelloWorld();
+    		final String text = "Successfully sent message to queue " + mqService.getQueueName();
+    		ResponseData responseData = new ResponseData("OK", text, dataSentToQueue);
+    		return responseData;
 	}
 }
