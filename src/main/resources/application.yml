@@ -6,7 +6,7 @@ spring:
 
 opentracing:
   jaeger:
-    enabled: true
+    enabled: false
     enable-b3-propagation: true
     enable128-bit-traces: true
     log-spans: true

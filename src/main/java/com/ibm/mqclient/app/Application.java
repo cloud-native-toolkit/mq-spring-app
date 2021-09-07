@@ -4,7 +4,6 @@ import io.jaegertracing.Configuration;
 import io.jaegertracing.Configuration.ReporterConfiguration;
 import io.jaegertracing.Configuration.SamplerConfiguration;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -22,8 +21,12 @@ import org.springframework.core.env.Environment;
 public class Application extends SpringBootServletInitializer {
 	@Autowired
 	Environment environment;
+
 	@Value("${spring.application.name}")
 	private String applicationName;
+
+	@Value("${opentracing.jaeger.enabled:false}")
+	private boolean tracingEnabled;
 
 	public static void main(String[] args) {
 		SpringApplication.run(com.ibm.mqclient.app.Application.class, args);
@@ -46,12 +49,16 @@ public class Application extends SpringBootServletInitializer {
 
 	@Bean
 	public io.opentracing.Tracer initTracer() {
-		Configuration.SamplerConfiguration samplerConfig = new Configuration.SamplerConfiguration().withType("const")
-				.withParam(1);
-		Configuration.ReporterConfiguration reporterConfig = Configuration.ReporterConfiguration.fromEnv()
-				.withLogSpans(true);
+		if(tracingEnabled){
+			Configuration.SamplerConfiguration samplerConfig = new Configuration.SamplerConfiguration().withType("const")
+					.withParam(1);
+			Configuration.ReporterConfiguration reporterConfig = Configuration.ReporterConfiguration.fromEnv()
+					.withLogSpans(true);
 
-		return Configuration.fromEnv(this.applicationName).withSampler(samplerConfig).withReporter(reporterConfig)
-				.getTracer();
+			return Configuration.fromEnv(this.applicationName).withSampler(samplerConfig).withReporter(reporterConfig)
+					.getTracer();
+		} else {
+			return io.opentracing.noop.NoopTracerFactory.create();
+		}
 	}
 }

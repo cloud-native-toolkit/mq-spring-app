@@ -128,13 +128,15 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: APP_NAME
-                  name: {{ include "mq-spring-app.fullname" . }}              
+                  name: {{ include "mq-spring-app.fullname" . }}        
+            - name: OPENTRACING_JAEGER_ENABLED
+              value: {{ .Values.jaeger.enabled | quote }}
           envFrom:
             - configMapRef:
-                name: {{ default "jaeger-config" .Values.jaegerConfigName }}
+                name: {{ default "jaeger-config" .Values.jaeger.configName }}
                 optional: true
             - secretRef:
-                name: {{ default "jaeger-access" .Values.jaegerSecretName }}
+                name: {{ default "jaeger-access" .Values.jaeger.secretName }}
                 optional: true
             {{- if eq .Values.security true }}     
             - secretRef:
