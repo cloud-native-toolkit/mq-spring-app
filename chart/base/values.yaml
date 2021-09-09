@@ -37,9 +37,11 @@ ingress:
 
 #  tlsSecretName: ""
 
-jaegerConfigName: jaeger-config
-jaegerSecretName: jaeger-access
-jaegerCollectorEndpoint: http://jaeger-all-in-one-inmemory-collector.openshift-operators.svc.cluster.local:14268/api/traces
+jaeger:
+  enabled: false
+  configName: jaeger-config
+  secretName: jaeger-access
+  collectorEndpoint: http://jaeger-all-in-one-inmemory-collector.openshift-operators.svc.cluster.local:14268/api/traces
 
 vcsInfo:
   repoUrl: ""

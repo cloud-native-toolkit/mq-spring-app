@@ -9,7 +9,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="CLUSTER" elementType="Argument">
             <stringProp name="Argument.name">CLUSTER</stringProp>
-            <stringProp name="Argument.value">mq-spring-app-dev.gitops-mq-ha-6ccd7f378ae819553d37d5f2ee142bd6-0000.tor01.containers.appdomain.cloud</stringProp>
+            <stringProp name="Argument.value">${__P(route,mq-spring-app-dev.gitops-mq-ha-6ccd7f378ae819553d37d5f2ee142bd6-0000.tor01.containers.appdomain.cloud)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
