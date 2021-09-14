@@ -67,6 +67,11 @@ http://localhost:16686/search
 ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DCONNECTION_NAME='localhost(1414)' -DCHANNEL=DEV.APP.SVRCONN -DQM=QM1 -DQUEUE_NAME='DEV.QUEUE.1' -DUSER=app -DPASSWORD=passw0rd"
 ```
 
+Or if you are using a ccdt file then:
+```
+./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DQUEUE_NAME='DEV.QUEUE.1' -DCCDT_URL=https://ccdt-no-security.free.beeceptor.com/ -DUSER=app -DPASSWORD=passw0rd -Dspring.profiles.active=ccdt"
+```
+
 ### test the app
 
 To send a message to the mq queue:
