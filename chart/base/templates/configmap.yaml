@@ -6,6 +6,8 @@ data:
   CHANNEL: {{ .Values.configmap.CHANNEL }}
   CONNECTION_NAME: {{ .Values.configmap.CONNECTION_NAME }}
   QM: {{ .Values.configmap.QM }}
+  {{- if not .Values.configmap.CCDT_URL }}
   CCDT_URL: {{ .Values.configmap.CCDT_URL }}
+  {{- end -}}
   QUEUE_NAME: {{ .Values.configmap.QUEUE_NAME }}
   APP_NAME: {{ .Values.configmap.APP_NAME }}
