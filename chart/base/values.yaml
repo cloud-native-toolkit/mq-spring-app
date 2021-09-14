@@ -57,7 +57,8 @@ configmap:
   CHANNEL: IBM.APP.SVRCONN
   CONNECTION_NAME: qm-dev-ibm-mq.dev.svc.cluster.local(1414)
   QM: QM1
-  CCDT_URL: https://ccdt-no-security-dev.free.beeceptor.com/
+  # IF CCDT_URL has a value, the CHANNEL, CONNECTION_NAME, and QM are configured from CCDT
+  CCDT_URL:
   QUEUE_NAME: IBM.DEMO.Q
   APP_NAME: MQ-SPRING-APP
 
