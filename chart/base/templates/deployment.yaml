@@ -84,6 +84,12 @@ spec:
               value: ""
             - name: LOG_LEVEL
               value: {{ .Values.logLevel | quote }}
+            {{- if eq .Values.ccdt.enabled true }}
+            - name: SPRING_PROFILES_ACTIVE
+              value: ccdt
+            - name: CCDT_URL
+              value: {{ .Values.ccdt.CCDT_URL }}              
+            {{- end }}                            
             {{- if eq .Values.security true }}  
             - name: SPRING_PROFILES_ACTIVE
               value: securemq
@@ -106,14 +112,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: CONNECTION_NAME
-                  name: {{ include "mq-spring-app.fullname" . }} 
-            {{- if .Values.configmap.CCDT_URL }}       
-            - name: CCDT_URL
-              valueFrom:
-                configMapKeyRef:
-                  key: CCDT_URL
-                  name: {{ include "mq-spring-app.fullname" . }} 
-            {{- end }}                    
+                  name: {{ include "mq-spring-app.fullname" . }}                
             {{- if eq .Values.security true }}                   
             - name: USER
               valueFrom:

@@ -1,0 +1,3 @@
+ibm:
+  mq:
+    ccdt-url: ${CCDT_URL}
