@@ -93,6 +93,12 @@ spec:
             {{- if eq .Values.security true }}  
             - name: SPRING_PROFILES_ACTIVE
               value: securemq
+            {{- end }}
+            {{- if or (eq .Values.ccdt.enabled true) (eq .Values.security true) }}
+            - name: SPRING_PROFILES_ACTIVE
+              value: ccdt,securemq                     
+            {{- end }}
+            {{- if eq .Values.security true }}                          
             - name: CLIENT_SSL_TRUST_STORE
               value: {{ .Values.certs.volumeMountPath }}/{{ .Values.certs.trustStoreFileName }}
             - name: CLIENT_SSL_KEY_STORE
