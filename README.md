@@ -42,12 +42,14 @@ Access the MQ Console:
 https://localhost:9443/ibmmq/console
 ```
 
-Additional manual steps:
-* create the queue DEV.QUEUE.q 
-* create channel DEV.APP.SVRCON 
+
+Ensure IBM MQ is configured as follows:
+* queue manager name is: QM1
+* queue name is:  DEV.QUEUE.1 
+* channel name is: DEV.APP.SVRCONN
 * disable queue manager channel authentication CHLAUTH
 
-### Start Jaeger for capturing traces
+### (Optional) Start Jaeger for capturing traces
 
 In ./local/jaeger folder:
 ```
