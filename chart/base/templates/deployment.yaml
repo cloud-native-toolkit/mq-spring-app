@@ -106,7 +106,12 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: CONNECTION_NAME
-                  name: {{ include "mq-spring-app.fullname" . }}     
+                  name: {{ include "mq-spring-app.fullname" . }}  
+            - name: CCDT_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: CCDT_URL
+                  name: {{ include "mq-spring-app.fullname" . }}                     
             {{- if eq .Values.security true }}                   
             - name: USER
               valueFrom:
