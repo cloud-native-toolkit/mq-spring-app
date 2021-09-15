@@ -42,12 +42,14 @@ Access the MQ Console:
 https://localhost:9443/ibmmq/console
 ```
 
-Additional manual steps:
-* create the queue DEV.QUEUE.q 
-* create channel DEV.APP.SVRCON 
+
+Ensure IBM MQ is configured as follows:
+* queue manager name is: QM1
+* queue name is:  DEV.QUEUE.1 
+* channel name is: DEV.APP.SVRCONN
 * disable queue manager channel authentication CHLAUTH
 
-### Start Jaeger for capturing traces
+### (Optional) Start Jaeger for capturing traces
 
 In ./local/jaeger folder:
 ```
@@ -63,6 +65,11 @@ http://localhost:16686/search
 
 ```
 ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DCONNECTION_NAME='localhost(1414)' -DCHANNEL=DEV.APP.SVRCONN -DQM=QM1 -DQUEUE_NAME='DEV.QUEUE.1' -DUSER=app -DPASSWORD=passw0rd"
+```
+
+Or if you are using a ccdt then:
+```
+./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DQUEUE_NAME='DEV.QUEUE.1' -DCCDT_URL=https://ccdt-no-security.free.beeceptor.com/ -DUSER=app -DPASSWORD=passw0rd -Dspring.profiles.active=ccdt"
 ```
 
 ### test the app
@@ -86,7 +93,7 @@ You should receive a json response:
 {"status":"OK","statusMessage":"Successfully received record from MQ","data":"Hello World!"}
 ```
 
-## Run the app locally - with security
+## (NOT COMPLETE YET) Run the app locally - with security
 
 ### Create and start LDAP server
 
@@ -102,6 +109,12 @@ In ./local/mq folder:
 docker-compose up
 ```
 
+### (Optional) Start Jaeger for capturing traces
+
+In ./local/jaeger folder:
+```
+docker-compose up
+```
 From a browser, access the jaeger UI:
 ```
 http://localhost:16686/search
@@ -111,6 +124,11 @@ http://localhost:16686/search
 
 ```
 ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DCONNECTION_NAME='localhost(1414)' -DCHANNEL=IBM.APP.SVRCONN -DQM=QM1 -DUSER=mqapp -DPASSWORD=mqapp -DQUEUE_NAME='IBM.DEMO.Q' -DCLIENT_SSL_KEY_STORE='ibm-client.jks' -DCLIENT_SSL_KEY_STORE_PASSWORD=passw0rd -DCLIENT_SSL_TRUST_STORE='ibm-ca.jks' -DCLIENT_SSL_TRUST_STORE_PASSWORD=passw0rd -Dspring.profiles.active=securemq"
+```
+
+Or if you are using a ccdt then:
+```
+./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DCCDT_URL=http://ccdt-security-local.free.beeceptor.com/ -DUSER=mqapp -DPASSWORD=mqapp -DQUEUE_NAME='IBM.DEMO.Q' -DCLIENT_SSL_KEY_STORE='ibm-client.jks' -DCLIENT_SSL_KEY_STORE_PASSWORD=passw0rd -DCLIENT_SSL_TRUST_STORE='ibm-ca.jks' -DCLIENT_SSL_TRUST_STORE_PASSWORD=passw0rd -Dspring.profiles.active=securemq,ccdt"
 ```
 
 ### test the app
