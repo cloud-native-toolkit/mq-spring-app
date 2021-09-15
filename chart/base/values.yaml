@@ -64,7 +64,7 @@ ccdt:
   enabled: true
   # IF CCDT_URL has a value, the CHANNEL, CONNECTION_NAME, and QM are configured from CCDT
   #CCDT_URL: https://ccdt-no-security-dev.free.beeceptor.com/
-  CCDT_URL: file://ccdt/ccdt.json
+  CCDT_URL: file:///ccdt/ccdt.json
   volumeName: ccdt
   configMapName: mq-spring-app-ccdt
   volumeMountPath: "/ccdt"
