@@ -39,9 +39,11 @@ spec:
         - name: {{ .Values.image.secretName }}
       {{- end }}
       volumes:
+      {{- if and (eq .Values.ccdt.enabled true) (.Values.ccdt.volumeName) }}
         - name: {{ .Values.ccdt.volumeName }}
           configMap:
             name: {{ .Values.ccdt.configMapName }}
+      {{- end }}
       {{- if eq .Values.security true }}
         - name: {{ .Values.certs.volumeName }}
           secret:
@@ -54,8 +56,10 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
+          {{- if and (eq .Values.ccdt.enabled true) (.Values.ccdt.volumeName) }}
             - name: {{ .Values.ccdt.volumeName }}
               mountPath: {{ .Values.ccdt.volumeMountPath }}
+          {{- end }}
           {{- if eq .Values.security true }}
             - name: {{ .Values.certs.volumeName }}
               mountPath: {{ .Values.certs.volumeMountPath }}
