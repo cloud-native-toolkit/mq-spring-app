@@ -155,7 +155,7 @@ Note: ensure helm value `ccdt.enabled` is set to `false`.
 
 ### CCDT referencing an HTTP url
 
-In helm `values.yaml`, set the `ccdt.enabled` value to `true` and provide a value for `ccdt.CCDT_URL` prefixed with `http://` or `https:\\`.
+In helm `values.yaml`, set the `ccdt.enabled` value to `true` and provide a value for `ccdt.CCDT_URL` prefixed with `http://` or `https://`.
 
 Note: ensure `ccdt.volumeName` is blank as we do not want to create a volume for this scenario.
 
@@ -181,6 +181,10 @@ ccdt:
   volumeMountPath: "/ccdt"
   configMapName: mq-spring-app-ccdt
 ```
+
+The helm chart will create the configMap with a name of `mq-spring-app-ccdt`.  See: `./chart/base/templates/configmap-ccdt.yaml`.
+You can modify the configMap located at `./chart/base/templates/configmap-ccdt.yaml` to set the ccdt values for your environment.
+
 
 ## Sealed Secrets
 
