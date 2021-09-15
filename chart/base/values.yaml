@@ -66,8 +66,9 @@ ccdt:
   #CCDT_URL: https://ccdt-no-security-dev.free.beeceptor.com/
   CCDT_URL: file:///ccdt/ccdt.json
   volumeName: ccdt
-  configMapName: mq-spring-app-ccdt
   volumeMountPath: "/ccdt"
+  configMapName: mq-spring-app-ccdt
+
 
 sealedsecret:
   PASSWORD: AgCprDoel/JdaWHzHNplzzPYoTp5wse+uNnjHol1rKLjeqYsYZpO/I9cGm5B8X271mEfQa3h8FluGiIP28EZ7bgCC+Ea8A1nFq2+Z+g+I+SDM8auy4xGHHgd2tQxz5cWy2Hpb4CVMF9GTMhSZ4F1QXojo43p+WBjAPPzGU4/AJtHBx5Oe2VZfvXd6lGcpP5Onrb94T+YT02/RW1kcQ4DWDn62XReNATbzhiXV/W4BPt2WTzXiul3VOJY5oWrwqQqFNSoZlUsb5cBSNTOm9PypIVSRY2APVWdLFsC73swPUPkIT6P07W01CToLVfdtz5lyhdmTjpJdX7+2qsaPJ05glZXSAmfzXOTgXHb7ElBg7tUuvqGBDgyPUrCMv0wo/Yvr3C2GwMJ8bfgahYxAsAy+dE5KJuwOJLhfjYw/67fDWqJQmLvL++rWTL5BHw/hhmr37Xeq0bBY88LcREFE9UBXWP3mVh/uo4xWLbR+oM0kGp304N6X8hR0VbUigXYCBNAHoPtnNN4H+GSo0BYQz8E6iByNbqvb9fLBrCix1+dHcfrQNFkbY0ROSu2iUgMhP1QI2zvhyp7EWalYlBw7/QDUPiQSWtYj4PwlF42u3Z708sbkdGAin74FmhrEv0SXnw/03wcIEibOPS30IaA2+T3exewHcB2LWcQ3CVd851mSKWR5o2899WVkNvvQJ223aU+vNZzKVE=
