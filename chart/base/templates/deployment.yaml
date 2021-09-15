@@ -41,7 +41,7 @@ spec:
       volumes:
         - name: {{ .Values.ccdt.volumeName }}
           configMap:
-            name: {{ .Values.ccdt.configMapName }}        
+            name: {{ .Values.ccdt.configMapName }}
       {{- if eq .Values.security true }}
         - name: {{ .Values.certs.volumeName }}
           secret:
@@ -99,7 +99,7 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: securemq
             {{- end }}
-            {{- if or (eq .Values.ccdt.enabled true) (eq .Values.security true) }}
+            {{- if and (eq .Values.ccdt.enabled true) (eq .Values.security true) }}
             - name: SPRING_PROFILES_ACTIVE
               value: ccdt,securemq
             {{- end }}
