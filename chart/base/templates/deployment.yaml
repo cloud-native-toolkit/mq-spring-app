@@ -38,16 +38,16 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.image.secretName }}
       {{- end }}
-      {{- if eq .Values.security true }}
       volumes:
+        - name: {{ .Values.ccdt.volumeName }}
+          configMap:
+            name: {{ .Values.ccdt.configMapName }}        
+      {{- if eq .Values.security true }}
         - name: {{ .Values.certs.volumeName }}
           secret:
             secretName: {{ .Values.certs.certSecretName }}
             defaultMode: 384
             optional: false
-        - name: {{ .Values.ccdt.volumeName }}
-          configMap:
-            name: {{ .Values.ccdt.configMapName }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
