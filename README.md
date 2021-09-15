@@ -151,9 +151,11 @@ ibm:
 
 The helm chart creates a configMap and the deployment defines environment variables from the configMap.
 
+Note: ensure helm value `ccdt.enabled` is set to `false`.
+
 ### CCDT referencing an HTTP url
 
-In helm `values.yaml`, set the `ccdt.enabled` value to true and provide a value for `ccdt.CCDT_URL` prefixed with `http://` or `https:\\`.
+In helm `values.yaml`, set the `ccdt.enabled` value to `true` and provide a value for `ccdt.CCDT_URL` prefixed with `http://` or `https:\\`.
 
 Note: ensure `ccdt.volumeName` is blank as we do not want to create a volume for this scenario.
 
