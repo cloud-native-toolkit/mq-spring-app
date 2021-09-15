@@ -93,7 +93,7 @@ You should receive a json response:
 {"status":"OK","statusMessage":"Successfully received record from MQ","data":"Hello World!"}
 ```
 
-## Run the app locally - with security
+## (NOT COMPLETE YET) Run the app locally - with security
 
 ### Create and start LDAP server
 
