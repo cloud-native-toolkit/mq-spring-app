@@ -67,7 +67,7 @@ http://localhost:16686/search
 ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DCONNECTION_NAME='localhost(1414)' -DCHANNEL=DEV.APP.SVRCONN -DQM=QM1 -DQUEUE_NAME='DEV.QUEUE.1' -DUSER=app -DPASSWORD=passw0rd"
 ```
 
-Or if you are using a ccdt file then:
+Or if you are using a ccdt then:
 ```
 ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DQUEUE_NAME='DEV.QUEUE.1' -DCCDT_URL=https://ccdt-no-security.free.beeceptor.com/ -DUSER=app -DPASSWORD=passw0rd -Dspring.profiles.active=ccdt"
 ```
@@ -109,6 +109,12 @@ In ./local/mq folder:
 docker-compose up
 ```
 
+### (Optional) Start Jaeger for capturing traces
+
+In ./local/jaeger folder:
+```
+docker-compose up
+```
 From a browser, access the jaeger UI:
 ```
 http://localhost:16686/search
@@ -118,6 +124,11 @@ http://localhost:16686/search
 
 ```
 ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DCONNECTION_NAME='localhost(1414)' -DCHANNEL=IBM.APP.SVRCONN -DQM=QM1 -DUSER=mqapp -DPASSWORD=mqapp -DQUEUE_NAME='IBM.DEMO.Q' -DCLIENT_SSL_KEY_STORE='ibm-client.jks' -DCLIENT_SSL_KEY_STORE_PASSWORD=passw0rd -DCLIENT_SSL_TRUST_STORE='ibm-ca.jks' -DCLIENT_SSL_TRUST_STORE_PASSWORD=passw0rd -Dspring.profiles.active=securemq"
+```
+
+Or if you are using a ccdt then:
+```
+./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-DCCDT_URL=http://ccdt-security-local.free.beeceptor.com/ -DUSER=mqapp -DPASSWORD=mqapp -DQUEUE_NAME='IBM.DEMO.Q' -DCLIENT_SSL_KEY_STORE='ibm-client.jks' -DCLIENT_SSL_KEY_STORE_PASSWORD=passw0rd -DCLIENT_SSL_TRUST_STORE='ibm-ca.jks' -DCLIENT_SSL_TRUST_STORE_PASSWORD=passw0rd -Dspring.profiles.active=securemq,ccdt"
 ```
 
 ### test the app
