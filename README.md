@@ -23,7 +23,7 @@ More
 
 ## Run the app locally - no security
 
-### Create and start MQ manager 
+### Create and start MQ manager
 
 Pull the latest MQ docker image from docker hub:
 
@@ -45,7 +45,7 @@ https://localhost:9443/ibmmq/console
 
 Ensure IBM MQ is configured as follows:
 * queue manager name is: QM1
-* queue name is:  DEV.QUEUE.1 
+* queue name is:  DEV.QUEUE.1
 * channel name is: DEV.APP.SVRCONN
 * disable queue manager channel authentication CHLAUTH
 
@@ -82,12 +82,12 @@ To send a message to the mq queue:
  ```
  {"status":"OK","statusMessage":"Successfully sent record to MQ","data":"Hello World!"}
  ```
- 
+
  To receive a message from the mq queue:
  ```
  curl --location --request GET 'http://localhost:8080/api/recv'
  ```
- 
+
 You should receive a json response:
 ```
 {"status":"OK","statusMessage":"Successfully received record from MQ","data":"Hello World!"}
@@ -102,7 +102,7 @@ In ./local/ldap folder:
 docker-compose up
 ```
 
-### Create and start MQ manager 
+### Create and start MQ manager
 
 In ./local/mq folder:
 ```
@@ -136,6 +136,56 @@ Or if you are using a ccdt then:
 Same steps as above.
 
 
+## Configure the app to communicate with the MQ manager
+
+### Spring Boot properties (default)
+
+The app is configured via the application.yml file where properties get injected as follows:
+```
+ibm:
+  mq:
+    queue-manager: ${QM:QM1}
+    channel: ${CHANNEL:DEV.ADMIN.SVRCONN}
+    conn-name: ${CONNECTION_NAME:localhost(1414)}
+```
+
+The helm chart creates a configMap and the deployment defines environment variables from the configMap.
+
+Note: ensure helm value `ccdt.enabled` is set to `false`.
+
+### CCDT referencing an HTTP url
+
+In helm `values.yaml`, set the `ccdt.enabled` value to `true` and provide a value for `ccdt.CCDT_URL` prefixed with `http://` or `https://`.
+
+Note: ensure `ccdt.volumeName` is blank as we do not want to create a volume for this scenario.
+
+Example config:
+```
+ccdt:
+  enabled: true
+  CCDT_URL: https://ccdt-no-security-dev.free.beeceptor.com/
+  volumeName:
+```
+
+### CCDT referencing a file mounted from configMap
+
+In helm `values.yaml`, set the `ccdt.enabled` value to `true` and provide a value for `ccdt.CCDT_URL` prefixed with `file:///`.
+Also, ensure the `ccdt.volumeName` and `ccdt.volumeMountPath` have values.
+
+Example config:
+```
+ccdt:
+  enabled: true
+  CCDT_URL: file:///ccdt/ccdt.json
+  volumeName: ccdt
+  volumeMountPath: "/ccdt"
+  configMapName: mq-spring-app-ccdt
+```
+
+The helm chart will create the configMap with a name of `mq-spring-app-ccdt`.  See: `./chart/base/templates/configmap-ccdt.yaml`.
+You can modify the configMap located at `./chart/base/templates/configmap-ccdt.yaml` to set the ccdt values for your environment.
+
+
 ## Sealed Secrets
 
 The app gets deployed using a helm chart which is included in this repo.
@@ -160,7 +210,7 @@ The file `mq-spring-app-enc.yaml`  will contain the encrypted values to modify  
 
 In this particular case, the sealed secret created has a cluster-wide scope.
 To further lock down the setup and enhance security, you can create the sealed secret with a namespace scope.
-See kubeseal docs to better understand this. 
+See kubeseal docs to better understand this.
 
 
 
