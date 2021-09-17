@@ -38,23 +38,32 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.image.secretName }}
       {{- end }}
-      {{- if eq .Values.security true }}
       volumes:
+      {{- if and (eq .Values.ccdt.enabled true) (.Values.ccdt.volumeName) }}
+        - name: {{ .Values.ccdt.volumeName }}
+          configMap:
+            name: {{ .Values.ccdt.configMapName }}
+      {{- end }}
+      {{- if eq .Values.security true }}
         - name: {{ .Values.certs.volumeName }}
           secret:
             secretName: {{ .Values.certs.certSecretName }}
             defaultMode: 384
-            optional: false   
-      {{- end }}           
+            optional: false
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if eq .Values.security true }}
           volumeMounts:
+          {{- if and (eq .Values.ccdt.enabled true) (.Values.ccdt.volumeName) }}
+            - name: {{ .Values.ccdt.volumeName }}
+              mountPath: {{ .Values.ccdt.volumeMountPath }}
+          {{- end }}
+          {{- if eq .Values.security true }}
             - name: {{ .Values.certs.volumeName }}
               mountPath: {{ .Values.certs.volumeMountPath }}
-          {{- end }}              
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.image.port }}
@@ -69,14 +78,14 @@ spec:
             successThreshold: 1
             failureThreshold: 3
           readinessProbe:
-            httpGet:              
+            httpGet:
               path: /actuator/health/readiness
               port: {{ .Values.image.port }}
               scheme: HTTP
             timeoutSeconds: 10
             periodSeconds: 30
             successThreshold: 1
-            failureThreshold: 3              
+            failureThreshold: 3
           env:
             - name: INGRESS_HOST
               value: ""
@@ -88,22 +97,22 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: ccdt
             - name: CCDT_URL
-              value: {{ .Values.ccdt.CCDT_URL }}              
-            {{- end }}                            
-            {{- if eq .Values.security true }}  
+              value: {{ .Values.ccdt.CCDT_URL }}
+            {{- end }}
+            {{- if eq .Values.security true }}
             - name: SPRING_PROFILES_ACTIVE
               value: securemq
             {{- end }}
-            {{- if or (eq .Values.ccdt.enabled true) (eq .Values.security true) }}
+            {{- if and (eq .Values.ccdt.enabled true) (eq .Values.security true) }}
             - name: SPRING_PROFILES_ACTIVE
-              value: ccdt,securemq                     
+              value: ccdt,securemq
             {{- end }}
-            {{- if eq .Values.security true }}                          
+            {{- if eq .Values.security true }}
             - name: CLIENT_SSL_TRUST_STORE
               value: {{ .Values.certs.volumeMountPath }}/{{ .Values.certs.trustStoreFileName }}
             - name: CLIENT_SSL_KEY_STORE
-              value: {{ .Values.certs.volumeMountPath }}/{{ .Values.certs.keyStoreFileName }}              
-            {{- end }}  
+              value: {{ .Values.certs.volumeMountPath }}/{{ .Values.certs.keyStoreFileName }}
+            {{- end }}
             - name: QM
               valueFrom:
                 configMapKeyRef:
@@ -118,8 +127,8 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: CONNECTION_NAME
-                  name: {{ include "mq-spring-app.fullname" . }}                
-            {{- if eq .Values.security true }}                   
+                  name: {{ include "mq-spring-app.fullname" . }}
+            {{- if eq .Values.security true }}
             - name: USER
               valueFrom:
                 secretKeyRef:
@@ -130,7 +139,7 @@ spec:
                 secretKeyRef:
                   key: PASSWORD
                   name: {{ include "mq-spring-app.fullname" . }}
-            {{- end }}       
+            {{- end }}
             - name: QUEUE_NAME
               valueFrom:
                 configMapKeyRef:
@@ -140,7 +149,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: APP_NAME
-                  name: {{ include "mq-spring-app.fullname" . }}        
+                  name: {{ include "mq-spring-app.fullname" . }}
             - name: OPENTRACING_JAEGER_ENABLED
               value: {{ .Values.jaeger.enabled | quote }}
           envFrom:
@@ -150,10 +159,10 @@ spec:
             - secretRef:
                 name: {{ default "jaeger-access" .Values.jaeger.secretName }}
                 optional: true
-            {{- if eq .Values.security true }}     
+            {{- if eq .Values.security true }}
             - secretRef:
-                name: {{ .Values.certs.certPasswordSecretName }} 
-            {{- end }}                      
+                name: {{ .Values.certs.certPasswordSecretName }}
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
