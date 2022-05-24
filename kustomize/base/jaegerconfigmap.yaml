@@ -1,0 +1,8 @@
+---
+# Source: mq-spring-app/templates/jaegerconfigmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jaeger-config
+data:
+  JAEGER_ENDPOINT: http://jaeger-all-in-one-inmemory-collector.openshift-operators.svc.cluster.local:14268/api/traces
