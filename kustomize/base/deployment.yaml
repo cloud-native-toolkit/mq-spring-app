@@ -1,0 +1,100 @@
+---
+# Source: mq-spring-app/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mq-spring-app
+  annotations:
+    app.openshift.io/vcs-ref: 9363c7d02f9f98c4715b254a9ae8d5b6e1df5241
+    app.openshift.io/vcs-uri: https://github.com/GitOps-MQ-12042022/mq-spring-app
+  labels:
+    app.kubernetes.io/name: mq-spring-app
+    helm.sh/chart: mq-spring-app-1.0.0-rc0.0.2
+    app.kubernetes.io/instance: mq-spring-app
+    app: mq-spring-app
+    app.kubernetes.io/part-of: inventory
+    app.openshift.io/runtime: spring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mq-spring-app
+      app.kubernetes.io/instance: mq-spring-app
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: mq-spring-app
+        app.kubernetes.io/instance: mq-spring-app
+    spec:
+      serviceAccountName: mq-spring-app
+      volumes:
+      containers:
+        - name: mq-spring-app
+          image: "replace"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+              scheme: HTTP
+            timeoutSeconds: 10
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+              scheme: HTTP
+            timeoutSeconds: 10
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 3
+          env:
+            - name: INGRESS_HOST
+              value: ""
+            - name: PROTOCOLS
+              value: ""
+            - name: LOG_LEVEL
+              value: "info"
+            - name: QM
+              valueFrom:
+                configMapKeyRef:
+                  key: QM
+                  name: mq-spring-app
+            - name: CHANNEL
+              valueFrom:
+                configMapKeyRef:
+                  key: CHANNEL
+                  name: mq-spring-app
+            - name: CONNECTION_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: CONNECTION_NAME
+                  name: mq-spring-app
+            - name: QUEUE_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: QUEUE_NAME
+                  name: mq-spring-app
+            - name: APP_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: APP_NAME
+                  name: mq-spring-app
+            - name: OPENTRACING_JAEGER_ENABLED
+              value: "false"
+          envFrom:
+            - configMapRef:
+                name: jaeger-config
+                optional: true
+            - secretRef:
+                name: jaeger-access
+                optional: true
+          resources:
+            null

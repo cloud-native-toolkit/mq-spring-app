@@ -1,0 +1,21 @@
+---
+# Source: mq-spring-app/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mq-spring-app
+  labels:
+    app.kubernetes.io/name: mq-spring-app
+    helm.sh/chart: mq-spring-app-1.0.0-rc0.0.2
+    app.kubernetes.io/instance: mq-spring-app
+    app: mq-spring-app
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: mq-spring-app
+    app.kubernetes.io/instance: mq-spring-app

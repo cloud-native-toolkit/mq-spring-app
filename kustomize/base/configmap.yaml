@@ -1,0 +1,12 @@
+---
+# Source: mq-spring-app/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mq-spring-app
+data:
+  CHANNEL: IBM.APP.SVRCONN
+  CONNECTION_NAME: qm1-ibm-mq.dev.svc.cluster.local(1414)
+  QM: QM1
+  QUEUE_NAME: IBM.DEMO.Q
+  APP_NAME: MQ-SPRING-APP

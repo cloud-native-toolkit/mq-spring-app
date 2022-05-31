@@ -1,0 +1,16 @@
+---
+# Source: mq-spring-app/templates/route.yaml
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: mq-spring-app
+  annotations:
+    argocd.argoproj.io/sync-options: Validate=false
+spec:
+  to:
+    kind: Service
+    name: mq-spring-app
+    weight: 100
+  tls:
+    termination: edge
+  wildcardPolicy: None
