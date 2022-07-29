@@ -16,6 +16,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -28,6 +29,17 @@ public class MQClientController {
 
 	public MQClientController(MQService mqService) {
 		this.mqService = mqService;
+	}
+
+	@GetMapping(value = "/api/send-to-queue")
+	@ApiOperation(value = "Put a 'Hello World!' message on the MQ queue specified as parameter.", notes = "This api puts a hello world text message on the MQ queue specified as parameter.")
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "Successfully put message on the specified queue."), @ApiResponse(code = 500, message = "Error putting message on the specified queue.")})
+	ResponseData sendHelloToQueueName(@RequestParam String queueName) {
+	mqService.setQueueName(queueName);
+		String dataSentToQueue = mqService.sendHelloWorld();
+		final String text = "Successfully sent message to queue " + mqService.getQueueName();
+		ResponseData responseData = new ResponseData("OK", text, dataSentToQueue);
+		return responseData;
 	}
 	
 	@GetMapping("/api/send-hello-world")
